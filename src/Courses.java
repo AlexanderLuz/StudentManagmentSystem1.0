@@ -15,7 +15,7 @@ public enum Courses {
         this.Index = Index;
     }
 
-    public static Courses getCoursesEnum(int index) {
+    public static Courses getEnum(int index) {
         return switch(index) {
             case 1 -> HISTORY101;
             case 2 -> MATHEMATICS101;
@@ -23,6 +23,16 @@ public enum Courses {
             case 4 -> CHEMISTRY101;
             default -> COMPUTER_SCIENCE101;
         };
+    }
+
+    public static void printAvailableCourses(Student student) {
+        Courses[] coursesArray = Courses.values();
+        for (Courses courses : coursesArray) {
+            if (!student.coursesPaymentStatus.containsKey(courses)) {
+                System.out.println(courses.getIndex()+". "+courses.getName());
+            }
+        }
+        System.out.println();
     }
 
     public String getName() {
