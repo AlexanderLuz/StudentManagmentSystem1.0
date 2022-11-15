@@ -13,4 +13,10 @@ public class Student {
         this.name = name;
         this.year = Year.getEnum(year);
     }
+
+    public void printStatus() {
+        System.out.println(name);
+        System.out.println("Year: "+year.getName()+" | Balance: "+balance+"£");
+        System.out.println("ID: "+University.IDList.get(name));
+    }
 }
