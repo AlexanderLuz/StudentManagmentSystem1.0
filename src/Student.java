@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Student {
+public class Student implements Serializable {
     public int balance;
     public String name;
     public ArrayList<Courses> coursesEnrolled = new ArrayList<Courses>();

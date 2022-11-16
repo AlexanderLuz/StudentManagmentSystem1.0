@@ -1,18 +1,18 @@
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
-    public static ArrayList<Student> studentArrayList = new ArrayList<Student>();
+    public static List<Student> studentArrayList = new ArrayList<>();
 
     public static void main(String[] args) {
         instantiateStudents();
         performStudentLoginAndActionProcedure();
-
-
     }
 
-    // Methods for Creating new Students
+    // Methods for Creating and Loading Students
     public static void instantiateStudents() {
         System.out.println("Enter amount of Students: ");
         int amountOfStudents = Integer.parseInt(askForInput());
@@ -25,11 +25,7 @@ public class Main {
             int year = Integer.parseInt(askForInput());
             studentArrayList.add(new Student(name, balance, year));
         }
-        for(Student student:studentArrayList) {
-            ConsoleOutputFunctions.printFiller(25,"-");
-            University.putStudentInUniversity(student);
-            printStatus(student);
-        }
+        printAndWriteStudentsToUniversity();
     }
 
     // Commonly used Methods
@@ -55,7 +51,7 @@ public class Main {
             case SHOW_STATUS -> printStatus(student);
             case SHOW_PAYMENT_STATUS -> printCoursesWithStatus(student);
             case ENROLL_IN_NEW_COURSE -> {
-                Courses.printAvailableCourses(student);
+                printAvailableCourses(student);
                 enrollInNewCourse(student);
             }
             default -> payForCourse(student);
@@ -74,10 +70,16 @@ public class Main {
     public static void enrollInNewCourse(Student student) {
         System.out.println("What course do you want to enroll in?");
         int answer = Integer.parseInt(askForInput());
-        if(!student.coursesPaymentStatus.containsKey(Courses.getEnum(answer))) {
+        if(!student.coursesPaymentStatus.containsKey(Courses.getEnum(answer)) && student.year.getYear() >= Courses.getEnum(answer).getMinimumYear().getYear()) {
             student.coursesEnrolled.add(Courses.getEnum(answer));
             student.coursesPaymentStatus.put(Courses.getEnum(answer), Status.TUITION_NOT_PAYED);
             System.out.println("Successfully enrolled in Course: "+Courses.getEnum(answer).getName());
+        }
+        if(student.year.getYear() < Courses.getEnum(answer).getMinimumYear().getYear()) {
+            System.out.println("Sorry you cant enroll in this course in your current Year.");
+        }
+        if(student.coursesPaymentStatus.containsKey(Courses.getEnum(answer))) {
+            System.out.println("You are already enrolled in this Course!");
         }
     }
     public static void payForCourse(Student student) {
@@ -123,14 +125,35 @@ public class Main {
         else {
             System.out.println("You are enrolled in the courses:");
             for(Courses course:student.coursesEnrolled) {
-                System.out.println();
-                System.out.print(course.getIndex()+". ");
-                System.out.printf("%-20s", course.getName());
-                System.out.printf("%10s", student.coursesPaymentStatus.get(course).getName());
-                System.out.print(" | Cost: "+course.getCost()+"£");
+                course.printCourseInfo();
+                System.out.print(" | "+student.coursesPaymentStatus.get(course).getName());
             }
         }
         System.out.println();
     }
+    public static void printAvailableCourses(Student student) {
+        Courses[] coursesArray = Courses.values();
+        for (Courses courses : coursesArray) {
+            if (!student.coursesPaymentStatus.containsKey(courses)) {
+                courses.printCourseInfo();
+            }
+        }
+        System.out.println();
+    }
+    private static void printAndWriteStudentsToUniversity() {
+        for(Student student:studentArrayList) {
+            ConsoleOutputFunctions.printFiller(25,"-");
+            University.putStudentInUniversity(student);
+            printStatus(student);
+        }
+    }
 
+    // File IO class
+    private static class FileIO {
+        public static FileOutputStream fos;
+        public static ObjectOutputStream oos;
+
+        public static FileInputStream fis;
+        public static ObjectInputStream ois;
+    }
 }

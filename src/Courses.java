@@ -1,18 +1,22 @@
 public enum Courses {
-    HISTORY101("History-101", 600, 1),
-    MATHEMATICS101("Mathematics-101", 800, 2),
-    ENGLISH101("English-101", 400, 3),
-    CHEMISTRY101("Chemistry-101", 750, 4),
-    COMPUTER_SCIENCE101("Computer Science-101", 1500, 5);
+    HISTORY101("History-101", 600, 1, Teacher.UMBRIDGE, Year.FRESHMAN),
+    MATHEMATICS101("Mathematics-101", 800, 2, Teacher.DUMBLEDORE, Year.FRESHMAN),
+    ENGLISH101("English-101", 400, 3, Teacher.HAGRID, Year.FRESHMAN),
+    CHEMISTRY101("Chemistry-101", 750, 4, Teacher.SNAPE, Year.FRESHMAN),
+    COMPUTER_SCIENCE101("Computer Science-101", 1500, 5, Teacher.DUMBLEDORE, Year.FRESHMAN);
 
     private final String Name;
     private final int Cost;
     private final int Index;
+    private final Teacher Prof;
+    private final Year MinimumYear;
 
-    private Courses(String Name, int Cost, int Index) {
+    private Courses(String Name, int Cost, int Index, Teacher Prof, Year MinimumYear) {
         this.Name = Name;
         this.Cost = Cost;
         this.Index = Index;
+        this.Prof = Prof;
+        this.MinimumYear = MinimumYear;
     }
 
     public static Courses getEnum(int index) {
@@ -25,16 +29,6 @@ public enum Courses {
         };
     }
 
-    public static void printAvailableCourses(Student student) {
-        Courses[] coursesArray = Courses.values();
-        for (Courses courses : coursesArray) {
-            if (!student.coursesPaymentStatus.containsKey(courses)) {
-                System.out.println(courses.getIndex()+". "+courses.getName());
-            }
-        }
-        System.out.println();
-    }
-
     public String getName() {
         return Name;
     }
@@ -45,5 +39,17 @@ public enum Courses {
 
     public int getIndex() {
         return Index;
+    }
+
+    public Teacher getProf() {
+        return Prof;
+    }
+
+    public Year getMinimumYear() {
+        return MinimumYear;
+    }
+
+    public void printCourseInfo() {
+        System.out.println(getIndex()+". "+getName()+" | "+getCost()+" | "+getProf().getFullName()+" | "+getMinimumYear().getName());
     }
 }
