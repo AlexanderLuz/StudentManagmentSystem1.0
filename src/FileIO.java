@@ -7,8 +7,8 @@ public class FileIO {
 
     private final String Path = "StudentSheet.csv";
 
-    BufferedReader reader;
-    String line = "";
+    private BufferedReader reader;
+    private String line = "";
 
     public void StudentSheetFileIO() {
         try {

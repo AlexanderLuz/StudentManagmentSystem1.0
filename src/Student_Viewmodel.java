@@ -1,6 +1,4 @@
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Student_Viewmodel implements Serializable {
     public void printStatus(Student student) {
