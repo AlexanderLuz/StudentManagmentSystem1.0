@@ -1,13 +1,12 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import com.opencsv.CSVWriter;
+
+import java.io.*;
 
 public class FileIO {
 
-    public void StudentSheetFileIO() {
+    public void StudentSheetFileReader() {
         try {
-            String path = "StudentSheet.csv";
+            String path = "src/main/resources/StudentSheet.csv";
             BufferedReader reader = new BufferedReader(new FileReader(path));
             String line;
             while((line = reader.readLine()) != null) {
@@ -21,5 +20,8 @@ public class FileIO {
             e.printStackTrace();
         }
     }
-
+    public void StudentSheetFileWriter() throws IOException {
+        String path = "src/main/resources/StudentSheet.csv";
+        CSVWriter writer = new CSVWriter(new FileWriter(path, true));
+    }
 }

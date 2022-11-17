@@ -1,7 +1,7 @@
 public class Main {
     public static final Singleton sng = new Singleton();
     public static void main(String[] args) {
-        sng.FileIO.StudentSheetFileIO();
+        sng.FileIO.StudentSheetFileReader();
         sng.UniversityManagement.instantiateStudents();
         do {
             sng.StudentManagement.performStudentLoginAndActionProcedure();
