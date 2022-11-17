@@ -8,8 +8,12 @@ public class Main {
     public static List<Student> studentArrayList = new ArrayList<>();
 
     public static void main(String[] args) {
+        new StudentSheetFileIO();
         instantiateStudents();
-        performStudentLoginAndActionProcedure();
+        do {
+            performStudentLoginAndActionProcedure();
+        }
+        while(!askForContinue("Is there another Student that wants to login?", 1));
     }
 
     // Methods for Creating and Loading Students
@@ -23,7 +27,9 @@ public class Main {
             int balance = Integer.parseInt(askForInput());
             System.out.println("Enter year of "+name+":");
             int year = Integer.parseInt(askForInput());
-            studentArrayList.add(new Student(name, balance, year));
+            System.out.println("Enter bank balance of "+name+":");
+            int bankBalance = Integer.parseInt(askForInput());
+            studentArrayList.add(new Student(name, balance, year, bankBalance));
         }
         printAndWriteStudentsToUniversity();
     }
@@ -31,6 +37,11 @@ public class Main {
     // Commonly used Methods
     public static String askForInput() {
         return scanner.nextLine();
+    }
+    public static boolean askForContinue(String question, int i) {
+        System.out.println(question+" ("+i+" for yes)");
+        int answer = Integer.parseInt(askForInput());
+        return answer == i;
     }
 
     // Login and Action procedure
@@ -43,12 +54,17 @@ public class Main {
     public static StudentAction chooseAction(Student student) {
         System.out.println("Welcome "+student.name+"!");
         System.out.println("You have 4 Options: \n(1) Show Student Status\n(2) Show Payment Status\n(3) Enroll in new Courses\n(4) Pay for Courses");
-        return StudentAction.getEnum(Integer.parseInt(askForInput()));
+        int answer = Integer.parseInt(askForInput());
+        return StudentAction.getEnum(answer);
     }
     public static void performAction(StudentAction action, Student student) {
         ConsoleOutputFunctions.printFiller(25,"-");
         switch(action) {
-            case SHOW_STATUS -> printStatus(student);
+            case FINISHED -> {
+                System.out.println("Have a nice day "+student.name+"!");
+
+            }
+            case SHOW_STATUS -> student.printStatus();
             case SHOW_PAYMENT_STATUS -> printCoursesWithStatus(student);
             case ENROLL_IN_NEW_COURSE -> {
                 printAvailableCourses(student);
@@ -59,44 +75,59 @@ public class Main {
     }
     public static void performStudentLoginAndActionProcedure() {
         Student student = studentLogin();
+        ConsoleOutputFunctions.printFiller(25, "-");
         do {
             StudentAction action = chooseAction(student);
             performAction(action, student);
+            if (action == StudentAction.FINISHED) {
+                return;
+            }
         }
-        while(!askForContinue());
+        while(!askForContinue("Did you solve your problem?", 1));
     }
 
     // Action Methods
     public static void enrollInNewCourse(Student student) {
         System.out.println("What course do you want to enroll in?");
         int answer = Integer.parseInt(askForInput());
-        if(!student.coursesPaymentStatus.containsKey(Courses.getEnum(answer)) && student.year.getYear() >= Courses.getEnum(answer).getMinimumYear().getYear()) {
-            student.coursesEnrolled.add(Courses.getEnum(answer));
-            student.coursesPaymentStatus.put(Courses.getEnum(answer), Status.TUITION_NOT_PAYED);
-            System.out.println("Successfully enrolled in Course: "+Courses.getEnum(answer).getName());
+        Courses courseEnum = Courses.getEnum(answer);
+        if(!student.coursesPaymentStatus.containsKey(courseEnum) && student.year.getYear() >= courseEnum.getMinimumYear().getYear() && !University.CoursesFilled.get(courseEnum)) {
+            student.coursesEnrolled.add(courseEnum);
+            student.coursesPaymentStatus.put(courseEnum, Status.TUITION_NOT_PAYED);
+            University.putStudentInCourse(student,courseEnum);
+            System.out.println("Successfully enrolled in Course: "+ courseEnum.getName());
         }
-        if(student.year.getYear() < Courses.getEnum(answer).getMinimumYear().getYear()) {
-            System.out.println("Sorry you cant enroll in this course in your current Year.");
-        }
-        if(student.coursesPaymentStatus.containsKey(Courses.getEnum(answer))) {
-            System.out.println("You are already enrolled in this Course!");
+        else {
+            if (student.year.getYear() < courseEnum.getMinimumYear().getYear()) {
+                System.out.println("Sorry you cant enroll in this course in your current Year.");
+            }
+            if (student.coursesPaymentStatus.containsKey(courseEnum)) {
+                System.out.println("You are already enrolled in this Course!");
+            }
+            if(University.CoursesFilled.get(courseEnum)) {
+                System.out.println("Sorry this course is filled!");
+            }
         }
     }
     public static void payForCourse(Student student) {
+        if(student.coursesEnrolled.size() == 0) {
+            return;
+        }
         printCoursesWithStatus(student);
         System.out.println("What course do you want to pay for?");
         int answer = Integer.parseInt(askForInput());
-        if(!student.coursesPaymentStatus.containsKey(Courses.getEnum(answer))) {
+        Courses courseEnum = Courses.getEnum(answer);
+        if(!student.coursesPaymentStatus.containsKey(courseEnum)) {
             System.out.println("Sorry this course doesn't exist!");
         }
         else {
-            if(student.coursesPaymentStatus.get(Courses.getEnum(answer)) == Status.TUITION_NOT_PAYED) {
-                if(student.balance < Courses.getEnum(answer).getCost()) {
+            if(student.coursesPaymentStatus.get(courseEnum) == Status.TUITION_NOT_PAYED) {
+                if(student.balance < courseEnum.getCost()) {
                     System.out.println("You do not have the funds to pay for this Course!");
                 }
                 else {
-                    student.coursesPaymentStatus.put(Courses.getEnum(answer), Status.TUITION_PAYED);
-                    student.balance = student.balance-Courses.getEnum(answer).getCost();
+                    student.coursesPaymentStatus.put(courseEnum, Status.TUITION_PAYED);
+                    student.balance = student.balance-courseEnum.getCost();
                     System.out.println("Successfully paid for tuition.");
                     System.out.println("New Balance: "+student.balance+"£");
                 }
@@ -106,18 +137,9 @@ public class Main {
             }
         }
     }
-    public static boolean askForContinue() {
-        System.out.println("Did you solve your problem? (1 for yes)");
-        int answer = Integer.parseInt(askForInput());
-        return answer == 1;
-    }
+
 
     // Print Methods
-    public static void printStatus(Student student) {
-        System.out.println(student.name);
-        System.out.println("Year: "+student.year.getName()+" | Balance: "+student.balance+"£");
-        System.out.println("ID: "+University.IDList.get(student.name));
-    }
     public static void printCoursesWithStatus(Student student) {
         if(student.coursesEnrolled.size() == 0) {
             System.out.println("You are not enrolled in any course!");
@@ -142,18 +164,33 @@ public class Main {
     }
     private static void printAndWriteStudentsToUniversity() {
         for(Student student:studentArrayList) {
-            ConsoleOutputFunctions.printFiller(25,"-");
             University.putStudentInUniversity(student);
-            printStatus(student);
+            ConsoleOutputFunctions.printFiller(25,"-");
+            student.printStatus();
         }
     }
 
     // File IO class
-    private static class FileIO {
-        public static FileOutputStream fos;
-        public static ObjectOutputStream oos;
+    private static class StudentSheetFileIO {
+        private static final String Path = "StudentSheet.csv";
 
-        public static FileInputStream fis;
-        public static ObjectInputStream ois;
+        BufferedReader reader;
+        String line = "";
+
+        {
+            try {
+                reader = new BufferedReader(new FileReader(Path));
+
+                while((line = reader.readLine()) != null) {
+                    String[] values = line.split(",");
+                    studentArrayList.add(new Student(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3])));
+                }
+                printAndWriteStudentsToUniversity();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
