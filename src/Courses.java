@@ -62,7 +62,7 @@ public enum Courses {
         ConsoleOutputFunctions.printBreak();
         System.out.printf("%-20s", getMinimumYear().getName());
         ConsoleOutputFunctions.printBreak();
-        System.out.print("Capacity: "+University.CoursesCapacities.get(this)+"/"+getCapacity());
+        System.out.print("Capacity: "+Main.sng.UniversityManagement.University.CoursesCapacities.get(this)+"/"+getCapacity());
     }
 
     public int getCapacity() {

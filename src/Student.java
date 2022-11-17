@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Student implements Serializable {
+    public final Student_Viewmodel StVm = new Student_Viewmodel();
     public int balance;
     public int bankBalance;
     public String name;
@@ -15,19 +16,5 @@ public class Student implements Serializable {
         this.name = name;
         this.year = Year.getEnum(year);
         this.bankBalance = bankBalance;
-    }
-
-    public void printStatus() {
-        System.out.println(name);
-        System.out.println("Year: "+year.getName()+" | Balance: "+balance+"£"+" | Bank Balance: "+bankBalance);
-        System.out.println("ID: "+University.IDList.get(name));
-        for(Courses course:coursesEnrolled) {
-            course.printCourseInfo();
-        }
-    }
-    public void printInfo() {
-        System.out.println(name);
-        ConsoleOutputFunctions.printBreak();
-        System.out.print(year.getName());
     }
 }
