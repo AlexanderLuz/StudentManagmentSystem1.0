@@ -7,8 +7,8 @@ public class Student implements Serializable {
     public int balance;
     public int bankBalance;
     public String name;
-    public ArrayList<Courses> coursesEnrolled = new ArrayList<Courses>();
-    public HashMap<Courses, Status> coursesPaymentStatus = new HashMap<Courses, Status>();
+    public ArrayList<Courses> coursesEnrolled = new ArrayList<>();
+    public HashMap<Courses, Status> coursesPaymentStatus = new HashMap<>();
     public Year year;
 
     Student(String name, int balance, int year, int bankBalance) {

@@ -16,10 +16,7 @@ public class StudentManagement {
     public static void performAction(StudentAction action, Student student) {
         ConsoleOutputFunctions.printFiller(25,"-");
         switch(action) {
-            case FINISHED -> {
-                System.out.println("Have a nice day "+student.name+"!");
-
-            }
+            case FINISHED -> System.out.println("Have a nice day "+student.name+"!");
             case SHOW_STATUS -> student.StVm.printStatus(student);
             case SHOW_PAYMENT_STATUS -> printCoursesWithStatus(student);
             case ENROLL_IN_NEW_COURSE -> {
@@ -39,7 +36,7 @@ public class StudentManagement {
                 return;
             }
         }
-        while(!Main.sng.InputMethods.askForContinue("Did you solve your problem?", 1));
+        while(Main.sng.InputMethods.askForContinue("Did you solve your problem?", 1));
     }
 
     // Action Methods

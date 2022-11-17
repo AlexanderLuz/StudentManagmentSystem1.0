@@ -5,10 +5,7 @@ public enum StudentAction {
     ENROLL_IN_NEW_COURSE(3),
     PAY_FOR_COURSES(4);
 
-    private final int Index;
-
-    private StudentAction(int Index) {
-        this.Index = Index;
+    StudentAction(int Index) {
     }
 
     public static StudentAction getEnum(int parseInt) {
@@ -19,9 +16,5 @@ public enum StudentAction {
             case 4 -> PAY_FOR_COURSES;
             default -> SHOW_STATUS;
         };
-    }
-
-    public int getIndex() {
-        return Index;
     }
 }

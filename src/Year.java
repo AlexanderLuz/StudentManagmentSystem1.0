@@ -7,7 +7,7 @@ public enum Year {
     private final String Name;
     private final int Year;
 
-    private Year(String Name, int Year) {
+    Year(String Name, int Year) {
         this.Name = Name;
         this.Year = Year;
     }

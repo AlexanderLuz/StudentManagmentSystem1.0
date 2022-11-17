@@ -5,15 +5,11 @@ import java.io.IOException;
 
 public class FileIO {
 
-    private final String Path = "StudentSheet.csv";
-
-    private BufferedReader reader;
-    private String line = "";
-
     public void StudentSheetFileIO() {
         try {
-            reader = new BufferedReader(new FileReader(Path));
-
+            String path = "StudentSheet.csv";
+            BufferedReader reader = new BufferedReader(new FileReader(path));
+            String line;
             while((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 Main.sng.UniversityManagement.studentArrayList.add(new Student(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3])));

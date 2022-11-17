@@ -1,16 +1,14 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class University {
-    public HashMap<Integer, Student> StudentList = new HashMap<Integer, Student>();
-    public HashMap<String, Integer> IDList = new HashMap<String, Integer>();
-    public HashMap<Courses, Integer> CoursesCapacities = new HashMap<Courses, Integer>();
-    public HashMap<Courses, Boolean> CoursesFilled = new HashMap<Courses, Boolean>();
-    public HashMap<Courses, ArrayList<Student>> CoursesStudentList = new HashMap<Courses, ArrayList<Student>>();
+    public HashMap<Integer, Student> StudentList = new HashMap<>();
+    public HashMap<String, Integer> IDList = new HashMap<>();
+    public HashMap<Courses, Integer> CoursesCapacities = new HashMap<>();
+    public HashMap<Courses, Boolean> CoursesFilled = new HashMap<>();
+    public HashMap<Courses, ArrayList<Student>> CoursesStudentList = new HashMap<>();
     public final Courses[] CoursesList = Courses.values();
-    public AtomicInteger startingID = new AtomicInteger(1000);
-
 
     University() {
         for(Courses course:CoursesList) {

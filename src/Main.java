@@ -6,6 +6,6 @@ public class Main {
         do {
             sng.StudentManagement.performStudentLoginAndActionProcedure();
         }
-        while(!sng.InputMethods.askForContinue("Is there another Student that wants to login?", 1));
+        while(sng.InputMethods.askForContinue("Is there another Student that wants to login?", 1));
     }
 }

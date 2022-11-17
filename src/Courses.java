@@ -12,7 +12,7 @@ public enum Courses {
     private final Year MinimumYear;
     private final int Capacity;
 
-    private Courses(String Name, int Cost, int ID, Teacher Prof, Year MinimumYear, int Capacity) {
+    Courses(String Name, int Cost, int ID, Teacher Prof, Year MinimumYear, int Capacity) {
         this.Name = Name;
         this.Cost = Cost;
         this.ID = ID;

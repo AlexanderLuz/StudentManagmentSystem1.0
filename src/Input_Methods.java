@@ -9,6 +9,6 @@ public class Input_Methods {
         ConsoleOutputFunctions.printFiller(25,"-");
         System.out.println(question+" ("+i+" for yes)");
         int answer = Integer.parseInt(askForInput());
-        return answer == i;
+        return answer != i;
     }
 }
