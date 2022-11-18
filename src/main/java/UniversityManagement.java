@@ -34,7 +34,13 @@ public class UniversityManagement {
     public void printAndWriteStudentsToUniversity() {
         for(Student student:studentArrayList) {
             putStudentInUniversity(student);
-            ConsoleOutputFunctions.printFiller(25,"-");
+        }
+        printStudentsInUniversity();
+    }
+
+    public void printStudentsInUniversity() {
+        for(Student student:studentArrayList) {
+            ConsoleOutputFunctions.printFiller(25, "-");
             student.StVm.printStatus(student);
         }
     }
