@@ -4,6 +4,7 @@ import java.io.IOException;
 public class Main {
     public static final Singleton sng = new Singleton();
     public static void main(String[] args) throws FileNotFoundException {
+
         sng.FileIO.StudentSheetFileReader();
         sng.UniversityManagement.printAndWriteStudentsToUniversity();
 
