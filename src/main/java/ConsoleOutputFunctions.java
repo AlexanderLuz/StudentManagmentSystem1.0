@@ -6,4 +6,7 @@ public final class ConsoleOutputFunctions {
         }
         System.out.println();
     }
+    public static void printBreak() {
+        System.out.print(" | ");
+    }
 }
