@@ -13,11 +13,9 @@ public class RandomStudentCSVTest {
             int balance = (rnd.nextInt(5000 + 1 - 1000) + 1000);
             int year = (rnd.nextInt(4 + 1 - 1) + 1);
             int bankBalance = (rnd.nextInt(25000 + 1 - 100) + 100);
-            try {
-                Main.sng.FileIO.StudentSheetFileWriter(new Student(name, balance, year, bankBalance));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            Student student = new Student(name,balance,year,bankBalance);
+            Main.sng.UniversityManagement.studentArrayList.add(student);
+            Main.sng.FileIO.StudentSheetFileWriter(new Student(name,balance,year,bankBalance));
         }
     }
 }

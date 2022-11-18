@@ -3,6 +3,7 @@ import com.opencsv.CSVWriter;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class FileIO {
 
@@ -16,21 +17,23 @@ public class FileIO {
                 Main.sng.UniversityManagement.studentArrayList.add(new Student(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3])));
             }
             Main.sng.UniversityManagement.printAndWriteStudentsToUniversity();
+            reader.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void StudentSheetFileWriter(Student student) throws IOException {
+    public void StudentSheetFileWriter(Student student) {
         String path = "src/main/resources/StudentSheet.csv";
-        CSVWriter writer = new CSVWriter(new FileWriter(path, true));
-        String[] studentValues = new String[4];
-        studentValues[0] = student.name;
-        studentValues[1] = String.valueOf(student.balance);
-        studentValues[2] = String.valueOf(student.year.getYear());
-        studentValues[3] = String.valueOf(student.bankBalance);
-        writer.writeNext(studentValues);
-        writer.close();
+        CSVWriter writer = null;
+        try {
+            writer = new CSVWriter(new FileWriter(path, true));
+            writer.writeNext(new String[] {student.name,String.valueOf(student.balance),String.valueOf(student.year.getYear()),String.valueOf(student.bankBalance)});
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

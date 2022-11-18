@@ -21,12 +21,9 @@ public class UniversityManagement {
             int year = Integer.parseInt(Main.sng.InputMethods.askForInput());
             System.out.println("Enter bank balance of "+name+":");
             int bankBalance = Integer.parseInt(Main.sng.InputMethods.askForInput());
-            studentArrayList.add(new Student(name, balance, year, bankBalance));
-            try {
-                Main.sng.FileIO.StudentSheetFileWriter(new Student(name, balance, year, bankBalance));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            Student student = new Student(name,balance,year,bankBalance);
+            studentArrayList.add(student);
+            Main.sng.FileIO.StudentSheetFileWriter(student);
         }
         printAndWriteStudentsToUniversity();
     }
