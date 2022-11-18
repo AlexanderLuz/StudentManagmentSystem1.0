@@ -8,6 +8,32 @@ public class UniversityManagement {
     private final AtomicInteger startingID = new AtomicInteger(1000);
     public final University University = new University();
 
+    public void AdminLoginAndActionProcedure() {
+        if(AdminLogin()) {
+            do {
+
+            }
+            while (Main.sng.InputMethods.askForContinue("Are you finished?", 1));
+        }
+    }
+
+    public boolean AdminLogin() {
+        System.out.println("Please enter Master Password: ");
+        int answer = Integer.parseInt(Main.sng.InputMethods.askForInput());
+        if(answer == University.MasterPassword) {
+            System.out.println("Welcome Master!");
+            return true;
+        }
+        else {
+            System.out.println("You have no Permission to be here!");
+            return false;
+        }
+    }
+
+    public void chooseAdminAction() {
+
+    }
+
     // Methods for Creating and Loading Students
     public void instantiateStudents() {
         System.out.println("Enter amount of Students: ");

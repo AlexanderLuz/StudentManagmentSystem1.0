@@ -9,6 +9,7 @@ public class University {
     public HashMap<Courses, Boolean> CoursesFilled = new HashMap<>();
     public HashMap<Courses, ArrayList<Student>> CoursesStudentList = new HashMap<>();
     public final Courses[] CoursesList = Courses.values();
+    public final int MasterPassword = 1728780524;
 
     University() {
         for(Courses course:CoursesList) {
