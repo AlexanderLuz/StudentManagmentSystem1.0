@@ -1,6 +1,8 @@
 import com.opencsv.CSVWriter;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class FileIO {
 
@@ -20,8 +22,15 @@ public class FileIO {
             e.printStackTrace();
         }
     }
-    public void StudentSheetFileWriter() throws IOException {
+    public void StudentSheetFileWriter(Student student) throws IOException {
         String path = "src/main/resources/StudentSheet.csv";
         CSVWriter writer = new CSVWriter(new FileWriter(path, true));
+        String[] studentValues = new String[4];
+        studentValues[0] = student.name;
+        studentValues[1] = String.valueOf(student.balance);
+        studentValues[2] = String.valueOf(student.year.getYear());
+        studentValues[3] = String.valueOf(student.bankBalance);
+        writer.writeNext(studentValues);
+        writer.close();
     }
 }

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,6 +22,11 @@ public class UniversityManagement {
             System.out.println("Enter bank balance of "+name+":");
             int bankBalance = Integer.parseInt(Main.sng.InputMethods.askForInput());
             studentArrayList.add(new Student(name, balance, year, bankBalance));
+            try {
+                Main.sng.FileIO.StudentSheetFileWriter(new Student(name, balance, year, bankBalance));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         printAndWriteStudentsToUniversity();
     }
