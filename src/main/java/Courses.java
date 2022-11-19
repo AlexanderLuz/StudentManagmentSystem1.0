@@ -1,4 +1,5 @@
 public enum Courses {
+    INTRODUCTORY_COURSE("Introductory Course",0,100,Teacher.DUMBLEDORE,Year.FRESHMAN,25000),
     HISTORY101("History-101", 600, 101, Teacher.UMBRIDGE, Year.FRESHMAN, 27),
     MATHEMATICS101("Mathematics-101", 800, 201, Teacher.DUMBLEDORE, Year.FRESHMAN, 9),
     ENGLISH101("English-101", 400, 301, Teacher.HAGRID, Year.FRESHMAN, 10),
