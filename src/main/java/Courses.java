@@ -24,6 +24,7 @@ public enum Courses {
 
     public static Courses getEnum(int index) {
         return switch(index) {
+            case 100 -> INTRODUCTORY_COURSE;
             case 101 -> HISTORY101;
             case 201 -> MATHEMATICS101;
             case 301 -> ENGLISH101;
